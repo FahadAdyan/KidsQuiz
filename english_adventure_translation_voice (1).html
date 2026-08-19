@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Adventure — Kids Quiz</title>
+<style>
+:root {
+  --bg: #f6f8ff;
+  --card: #fff;
+  --ink: #24304a;
+  --muted: #71809d;
+  --purple: #7867f5;
+  --blue: #4bb7ff;
+  --green: #38c98a;
+  --yellow: #ffc857;
+  --pink: #ff7da9;
+  --red: #ff6b7a;
+  --shadow: 0 14px 35px rgba(56, 67, 115, .13);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(255, 220, 116, .45) 0 7%, transparent 20%),
+    radial-gradient(circle at 92% 4%, rgba(105, 205, 255, .35) 0 8%, transparent 21%),
+    radial-gradient(circle at 80% 88%, rgba(255, 139, 188, .20) 0 8%, transparent 22%), #f5f7ff;
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+button { font: inherit; outline: none; }
+
+.app {
+  width: min(1100px, 94%);
+  margin: auto;
+  padding: 22px 0 42px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 900;
+  font-size: 1.35rem;
+}
+
+.brand > div:last-child > div:first-child {
+  letter-spacing: -.5px;
+  background: linear-gradient(90deg, #5d50dc, #9a62e9);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #6658e8, #a56bf3);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 1000;
+  box-shadow: 0 10px 24px rgba(120, 103, 245, .35);
+  border: 3px solid #fff;
+}
+
+.top-stats {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pill {
+  background: #fff;
+  border-radius: 999px;
+  padding: 10px 15px;
+  box-shadow: 0 6px 20px #38437312;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.pill:hover { transform: translateY(-2px); }
+
+.screen {
+  display: none;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+  background: linear-gradient(135deg, rgba(255, 255, 255, .96), rgba(239, 241, 255, .96));
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 34px;
+  padding: 42px 28px;
+  box-shadow: 0 22px 55px rgba(56, 67, 115, .15);
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero:before, .hero:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: .65;
+}
+
+.hero:before { width: 170px; height: 170px; background: #ffe18a; left: -65px; top: -65px; }
+.hero:after { width: 190px; height: 190px; background: #bdeaff; right: -75px; bottom: -85px; }
+.hero > * { position: relative; z-index: 1; }
+
+.hero h1 {
+  font-size: clamp(2.25rem, 6vw, 4.2rem);
+  line-height: .98;
+  margin: 12px 0;
+  font-weight: 1000;
+  letter-spacing: -2px;
+  background: linear-gradient(90deg, #6255df, #9a65ee, #f0649b);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 1.08rem;
+  margin: 0 auto 22px;
+  max-width: 650px;
+}
+
+.primary, .secondary, .option, .back, .danger {
+  border: 0;
+  cursor: pointer;
+  border-radius: 18px;
+  font-weight: 900;
+  transition: .18s transform, .18s box-shadow, .18s filter;
+}
+
+.primary {
+  padding: 15px 24px;
+  background: linear-gradient(135deg, var(--purple), #9b75ff);
+  color: #fff;
+  box-shadow: 0 9px 20px #7867f544;
+}
+
+.danger {
+  padding: 15px 24px;
+  background: linear-gradient(135deg, var(--red), #ff8fa5);
+  color: #fff;
+  box-shadow: 0 9px 20px #ff6b7a44;
+}
+
+.secondary {
+  padding: 12px 18px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 7px 20px #38437316;
+}
+
+.primary:hover, .secondary:hover, .option:hover, .back:hover, .danger:hover {
+  transform: translateY(-3px);
+}
+
+.primary:active, .secondary:active, .option:active, .back:active, .danger:active {
+  transform: scale(.97);
+}
+
+.levels-wrap { margin-top: 24px; }
+
+.section-title {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 28px 3px 13px;
+  padding: 0 3px;
+}
+
+.section-title h2 { font-weight: 1000; margin: 0; font-size: 1.3rem; }
+.section-title span { color: var(--muted); font-size: .9rem; }
+
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.level {
+  min-height: 112px;
+  border: 1px solid rgba(255, 255, 255, .95);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 28px rgba(56, 67, 115, .10);
+  cursor: pointer;
+  padding: 15px;
+  position: relative;
+  text-align: left;
+  transition: .2s transform, .2s box-shadow, .2s border-color;
+  overflow: hidden;
+}
+
+.level:after {
+  content: "";
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  right: -18px;
+  bottom: -20px;
+  background: rgba(120, 103, 245, .07);
+}
+
+.level:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 18px 35px rgba(56, 67, 115, .16);
+}
+
+.level:active { transform: scale(.98); }
+.level.locked { filter: grayscale(.7); opacity: .65; cursor: not-allowed; }
+.level.locked:hover { transform: none; box-shadow: 0 12px 28px rgba(56, 67, 115, .10); }
+
+.level .num { font-size: 1.45rem; font-weight: 1000; }
+.level .label { font-size: .78rem; color: var(--muted); font-weight: 800; margin-top: 4px; }
+.level .stars { position: absolute; bottom: 10px; left: 13px; letter-spacing: 1px; }
+.level .lock { position: absolute; right: 12px; top: 11px; }
+
+.level.basic { border-top: 6px solid var(--yellow); }
+.level.mid { border-top: 6px solid var(--blue); }
+.level.advanced { border-top: 6px solid var(--pink); }
+
+.quiz-card {
+  background: rgba(255, 255, 255, .96);
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 34px;
+  box-shadow: 0 24px 60px rgba(56, 67, 115, .15);
+  padding: 26px;
+  max-width: 780px;
+  margin: auto;
+}
+
+.quiz-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.progress {
+  height: 12px;
+  background: #edf0f8;
+  border-radius: 999px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.progress > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--purple));
+  border-radius: inherit;
+  transition: width .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question { text-align: center; padding: 20px 5px 10px; }
+.question .emoji { font-size: 4.5rem; }
+.question h2 { font-size: clamp(1.35rem, 4vw, 2rem); margin: 12px auto 24px; max-width: 620px; }
+
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.option {
+  padding: 18px;
+  background: linear-gradient(145deg, #fafaff, #f2f4ff);
+  color: var(--ink);
+  border: 2px solid #e8eaf5;
+  font-size: 1.05rem;
+  min-height: 72px;
+  box-shadow: 0 6px 15px rgba(56, 67, 115, .06);
+}
+
+.option:hover { border-color: #c8c3ff; background: #f2efff; }
+.option.correct { background: #e5fbf1; border-color: var(--green); color: #087c51; }
+.option.wrong { background: #fff0f2; border-color: var(--red); color: #b83b4b; animation: shake .32s; }
+.option:disabled { cursor: default; }
+
+.feedback {
+  text-align: center;
+  min-height: 48px;
+  padding-top: 15px;
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+.good { color: #0c9a65; }
+.bad { color: #d64b5b; }
+
+.result {
+  text-align: center;
+  background: rgba(255, 255, 255, .97);
+  border: 1px solid #fff;
+  border-radius: 34px;
+  box-shadow: 0 24px 60px rgba(56, 67, 115, .15);
+  padding: 42px 28px;
+  max-width: 700px;
+  margin: auto;
+}
+
+.result .big { font-size: 4.5rem; }
+.stars-big { font-size: 2.4rem; letter-spacing: 5px; margin: 10px; }
+.result h2 { font-size: 2rem; margin: 8px; }
+.result p { color: var(--muted); font-size: 1.1rem; }
+
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 99; }
+.confetti span {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 18px;
+  border-radius: 3px;
+  animation: fall 1.2s linear forwards;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 48, 74, 0.4);
+  backdrop-filter: blur(4px);
+  display: none;
+  place-items: center;
+  z-index: 100;
+}
+.modal-overlay.active { display: grid; }
+
+.modal-content {
+  background: #fff;
+  padding: 32px;
+  border-radius: 28px;
+  box-shadow: 0 24px 50px rgba(0,0,0,0.15);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-content h3 { margin-top: 0; font-size: 1.5rem; color: var(--red); }
+.modal-content p { color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+.modal-actions { display: flex; gap: 12px; justify-content: center; }
+
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+}
+@keyframes shake {
+  25% { transform: translateX(-7px); }
+  50% { transform: translateX(7px); }
+  75% { transform: translateX(-4px); }
+}
+
+.input-name {
+  padding: 16px 24px; border-radius: 20px; border: 2px solid #e8eaf5;
+  font-size: 1.15rem; width: 100%; max-width: 320px; margin: 15px auto 25px;
+  outline: none; font-family: inherit; text-align: center; color: var(--ink);
+  font-weight: 800; box-shadow: inset 0 3px 6px rgba(0,0,0,0.02);
+  display: block; transition: border-color 0.2s;
+}
+.input-name:focus { border-color: var(--purple); }
+
+.history-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; text-align: left; max-height: 50vh; overflow-y: auto; padding-right: 5px; }
+.history-item {
+  background: #fafaff; padding: 18px; border-radius: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  border: 2px solid #e8eaf5; transition: transform 0.2s;
+}
+.history-item:hover { transform: scale(1.02); border-color: #c8c3ff; }
+.history-item .details { font-weight: 900; color: var(--ink); font-size: 1.1rem; }
+.history-item .meta { font-size: 0.9rem; color: var(--muted); font-weight: 700; margin-top: 4px; }
+
+@media(max-width: 700px) {
+  .app { width: 92%; padding-top: 14px; }
+  .hero { padding: 25px 18px; }
+  .level-grid { grid-template-columns: repeat(3, 1fr); }
+  .level { min-height: 95px; }
+  .options { grid-template-columns: 1fr; }
+  .quiz-card { padding: 18px; }
+  .question .emoji { font-size: 3.5rem; }
+  header { align-items: flex-start; }
+  .brand { font-size: 1rem; }
+  .logo { width: 42px; height: 42px; }
+}
+
+@media(max-width: 420px) {
+  .level-grid { grid-template-columns: repeat(2, 1fr); }
+  .top-stats .pill { padding: 8px 10px; font-size: .85rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <div class="logo">CC</div>
+      <div>
+        <div>English Adventure</div>
+        <small style="display:block;color:var(--muted);font-size:.72rem;font-weight:800;margin-top:2px">LEARN • PLAY • SHINE ✨</small>
+      </div>
+    </div>
+    <div class="top-stats">
+      <div class="pill" id="playerNameDisplay" style="color: var(--purple); font-weight: 900; display: none;">👤 -</div>
+      <div class="pill" onclick="showRecords()" title="Player Records" style="cursor: pointer; background: #e5fbf1; color: #087c51;">📜 Records</div>
+      <div class="pill">⭐ <span id="totalStars">0</span></div>
+      <div class="pill">🔓 <span id="unlockedCount">3</span>/50</div>
+      <div class="pill" onclick="openResetModal()" title="Reset Progress" style="padding: 10px; color: var(--red);">🔄</div>
+    </div>
+  </header>
+
+  <section id="welcome" class="screen">
+    <div class="hero" style="max-width: 650px; margin: 40px auto;">
+      <div style="font-size:3.5rem">👋</div>
+      <h1>Welcome!</h1>
+      <p>Please enter your nickname before you start collecting stars!</p>
+      <input type="text" id="playerNameInput" class="input-name" placeholder="Your name..." onkeypress="if(event.key === 'Enter') savePlayerName()" />
+      <button class="primary" id="startAdvBtn" onclick="savePlayerName()">Start Adventure 🚀</button>
+    </div>
+  </section>
+
+  <section id="menu" class="screen">
+    <div class="hero">
+      <div style="font-size:3rem">🦄📚🚀</div>
+      <h1>English Adventure!</h1>
+      <p>Learn English while playing. Choose a level and collect stars!</p>
+      <button class="primary" onclick="scrollToLevels()">🎮 Choose Level</button>
+    </div>
+    
+    <div class="levels-wrap" id="levels">
+      <div class="section-title">
+        <h2>🟡 Basic · Levels 1–10</h2>
+        <span>Age 6–7</span>
+      </div>
+      <div class="level-grid" id="basicLevels"></div>
+      
+      <div class="section-title">
+        <h2>🔵 Intermediate · Levels 11–30</h2>
+        <span>Age 8–10</span>
+      </div>
+      <div class="level-grid" id="midLevels"></div>
+      
+      <div class="section-title">
+        <h2>🩷 Advanced · Levels 31–50</h2>
+        <span>Age 11–12</span>
+      </div>
+      <div class="level-grid" id="advancedLevels"></div>
+    </div>
+  </section>
+
+  <section id="quiz" class="screen">
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <button class="back" onclick="goMenu()">← Menu</button>
+        <div class="progress"><i id="progressBar" style="width:0%"></i></div>
+        <b id="quizLabel" style="min-width:85px; text-align:right;">Level 1</b>
+      </div>
+      <div class="question">
+        <div class="emoji" id="qEmoji">🐱</div>
+        <h2 id="questionText"></h2>
+        <div class="options" id="options"></div>
+        <div class="feedback" id="feedback"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="result">
+      <div class="big" id="resultEmoji">🏆</div>
+      <h2 id="resultTitle">Level Completed!</h2>
+      <div class="stars-big" id="resultStars">⭐⭐⭐</div>
+      <p id="resultScore" style="margin-bottom: 5px;"></p>
+      <p id="resultTime" style="color: var(--blue); font-weight: 800; font-size: 1.15rem; margin-top: 0;"></p>
+      <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:20px">
+        <button class="primary" id="nextBtn">➡️ Next Level</button>
+        <button class="secondary" onclick="goMenu()">🗺️ Choose Level</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="records" class="screen">
+    <div class="quiz-card">
+      <div class="quiz-top">
+        <button class="back" onclick="goMenu()">← Menu</button>
+        <h2 id="recordsTitle" style="margin:0; font-size: 1.5rem;">📜 Game Records</h2>
+        <div style="width: 80px;"></div> <!-- Spacer -->
+      </div>
+      <div class="history-list" id="historyList">
+        <!-- Akan disuntik oleh JavaScript -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="confetti" id="confetti"></div>
+
+<div class="modal-overlay" id="resetModal">
+  <div class="modal-content">
+    <h3>Start Over?</h3>
+    <p>Are you sure you want to delete all stars and start from the beginning? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="secondary" onclick="closeResetModal()">Cancel</button>
+      <button class="danger" onclick="confirmReset()">Yes, Start Over</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let db, auth, fsCollection, fsAddDoc, appId;
+let globalRecords = [];
+
+async function initFirebase() {
+    try {
+        const { initializeApp } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js");
+        const { getAuth, signInAnonymously, signInWithCustomToken } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js");
+        const { getFirestore, collection, addDoc, onSnapshot } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+        
+        appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        
+        if (!firebaseConfig) return;
+
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        fsCollection = collection;
+        fsAddDoc = addDoc;
+
+        // Proses log masuk automatik ke pangkalan data
+        if (typeof __initial_auth_token !== 'undefined') {
+            await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+            await signInAnonymously(auth);
+        }
+
+        if (!auth.currentUser) return;
+
+        // Dengar secara real-time untuk Rekod Global
+        const recordsRef = fsCollection(db, 'artifacts', appId, 'public', 'data', 'gameRecords');
+        onSnapshot(recordsRef, (snapshot) => {
+            let records = [];
+            snapshot.forEach(doc => records.push(doc.data()));
+            
+            // Susun dari yang terkini (timestamp tertinggi) ke tertua
+            records.sort((a, b) => b.timestamp - a.timestamp);
+            globalRecords = records.slice(0, 50); // Simpan 50 rekod terakhir sahaja
+            
+            // Segar semula paparan jika pengguna sedang melihat skrin rekod
+            if (document.getElementById("records").classList.contains("active")) {
+                renderRecords();
+            }
+        }, (error) => {
+            console.error("Firebase records error:", error);
+        });
+    } catch(e) {
+        console.error("Firebase init error:", e);
+    }
+}
+
+initFirebase();
+
+const QUESTIONS = {
+  1: [
+    {emoji: "🐱", q: "What animal is this?", options: ["Cat", "Dog", "Fish", "Bird"], a: "Cat"},
+    {emoji: "🔴", q: "What color is this?", options: ["Blue", "Red", "Green", "Yellow"], a: "Red"},
+    {emoji: "3️⃣", q: "What number is this?", options: ["One", "Two", "Three", "Four"], a: "Three"},
+    {emoji: "🐶", q: "Which word means an animal that says 'woof'?", options: ["Cat", "Dog", "Fish", "Duck"], a: "Dog"},
+    {emoji: "🟡", q: "What color is the sun usually drawn as?", options: ["Purple", "Yellow", "Black", "Pink"], a: "Yellow"}
+  ],
+  2: [
+    {emoji: "🐟", q: "Which animal lives in water?", options: ["Fish", "Lion", "Horse", "Rabbit"], a: "Fish"},
+    {emoji: "🟢", q: "What color is this?", options: ["Red", "Green", "Blue", "Orange"], a: "Green"},
+    {emoji: "5️⃣", q: "How do you spell 5?", options: ["Four", "Five", "Fife", "Fiv"], a: "Five"},
+    {emoji: "🐰", q: "Which animal has long ears?", options: ["Rabbit", "Tiger", "Cow", "Fish"], a: "Rabbit"},
+    {emoji: "🔵", q: "What color is this?", options: ["Blue", "Brown", "Pink", "White"], a: "Blue"}
+  ],
+  3: [
+    {emoji: "🏃", q: "Which word means to move quickly on your feet?", options: ["Run", "Sleep", "Eat", "Sing"], a: "Run"},
+    {emoji: "📖", q: "Choose the correct sentence.", options: ["I am happy.", "I happy am.", "Am I happy.", "Happy I am."], a: "I am happy."},
+    {emoji: "🍎", q: "Choose the correct spelling.", options: ["Appl", "Aple", "Apple", "Appel"], a: "Apple"},
+    {emoji: "☀️", q: "Complete: The sun ___ bright.", options: ["are", "is", "am", "be"], a: "is"},
+    {emoji: "🐦", q: "A bird can…", options: ["fly", "swim like a fish", "drive", "read"], a: "fly"}
+  ],
+  4: [
+    {emoji: "🍌", q: "What fruit is this?", options: ["Apple", "Banana", "Orange", "Grape"], a: "Banana"},
+    {emoji: "👀", q: "We use these to see.", options: ["Ears", "Nose", "Eyes", "Mouth"], a: "Eyes"},
+    {emoji: "👨‍👩‍👧", q: "Mother, father, and children make a...", options: ["School", "Family", "Team", "House"], a: "Family"},
+    {emoji: "🐘", q: "Which animal is very big and has a trunk?", options: ["Mouse", "Elephant", "Monkey", "Snake"], a: "Elephant"},
+    {emoji: "🖐️", q: "How many fingers are on one hand?", options: ["Four", "Five", "Six", "Ten"], a: "Five"}
+  ],
+  5: [
+    {emoji: "🌙", q: "When do we usually sleep?", options: ["Morning", "Afternoon", "Night", "Evening"], a: "Night"},
+    {emoji: "🌧️", q: "What falls from the clouds?", options: ["Snow", "Rain", "Sun", "Stars"], a: "Rain"},
+    {emoji: "🔥", q: "Fire is...", options: ["Cold", "Wet", "Hot", "Sweet"], a: "Hot"},
+    {emoji: "🧊", q: "The opposite of hot is...", options: ["Warm", "Cold", "Dry", "Sunny"], a: "Cold"},
+    {emoji: "👟", q: "We wear these on our feet.", options: ["Hats", "Gloves", "Shoes", "Shirts"], a: "Shoes"}
+  ]
+};
+
+const TOTAL_LEVELS = 50;
+const STORAGE = "englishAdventureV1";
+
+// Default state if nothing is saved
+const defaultState = { unlocked: 1, stars: {}, playerName: "", history: [] };
+let state = JSON.parse(localStorage.getItem(STORAGE)) || defaultState;
+
+// Safeguard for returning users with old save data
+if (!state.history) state.history = [];
+if (!state.playerName) state.playerName = "";
+
+// Ensure unlocked is at least 1, clamp to max levels
+state.unlocked = Math.max(1, Math.min(TOTAL_LEVELS, state.unlocked || 1));
+
+let currentLevel = 1, currentQ = 0, score = 0, answered = false;
+let startTime = 0; // Pembolehubah untuk menyimpan waktu mula bermain tahap
+const $ = id => document.getElementById(id);
+
+function save() {
+  localStorage.setItem(STORAGE, JSON.stringify(state));
+  renderLevels();
+  updateHeader();
+}
+
+function updateHeader() {
+  $("totalStars").textContent = Object.values(state.stars).reduce((a, b) => a + b, 0);
+  $("unlockedCount").textContent = state.unlocked;
+  
+  // Update player name pill
+  if (state.playerName) {
+    $("playerNameDisplay").textContent = `👤 ${state.playerName}`;
+    $("playerNameDisplay").style.display = "flex";
+  } else {
+    $("playerNameDisplay").style.display = "none";
+  }
+}
+
+function savePlayerName() {
+  const nameInput = $("playerNameInput");
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.style.borderColor = "var(--red)"; // Visual feedback if empty
+    setTimeout(() => nameInput.style.borderColor = "#e8eaf5", 800);
+    return;
+  }
+  
+  const startBtn = $("startAdvBtn");
+  const oldText = startBtn.innerHTML;
+  startBtn.innerHTML = "Loading Voice... ⏳";
+  startBtn.disabled = true;
+
+  state.playerName = name;
+  save();
+  
+  // Play voice greeting then transition to menu
+  playWelcomeVoice(name).finally(() => {
+     startBtn.innerHTML = oldText;
+     startBtn.disabled = false;
+     show("menu");
+  });
+}
+
+function showRecords() {
+  renderRecords();
+  show("records");
+}
+
+function renderRecords() {
+  const title = $("recordsTitle");
+  if (title) {
+    title.textContent = "🌍 Global Game Records";
+  }
+
+  const list = $("historyList");
+  list.innerHTML = "";
+  
+  // Gunakan rekod awan (Cloud) jika ada, jika belum loading guna rekod lokal
+  const recordsToDisplay = globalRecords.length > 0 ? globalRecords : (state.history || []);
+
+  if (recordsToDisplay.length === 0) {
+    list.innerHTML = "<div style='text-align:center; padding: 30px; color: var(--muted); font-weight: 800;'>No game records yet. Start collecting stars now! 🌟</div>";
+    return;
+  }
+
+  recordsToDisplay.forEach(r => {
+    const item = document.createElement("div");
+    item.className = "history-item";
+    
+    // Gunakan nama dalam rekod, jika tiada guna nama semasa
+    const pName = r.player || state.playerName || "Player"; 
+    
+    item.innerHTML = `
+      <div>
+        <div class="details">Level ${r.level} <span style="font-size: 0.8rem; color: var(--muted); background: #e8eaf5; padding: 2px 8px; border-radius: 12px; margin-left: 6px; font-weight: 800;">👤 ${pName}</span></div>
+        <div class="meta">${r.date}</div>
+      </div>
+      <div style="text-align: right;">
+        <div class="details" style="color: var(--purple);">${r.score}/${r.total} Correct (${"⭐".repeat(r.stars)})</div>
+        <div class="meta">⏳ Time: ${r.time} seconds</div>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function levelCard(i) {
+  const locked = i > state.unlocked;
+  const type = i <= 10 ? "basic" : i <= 30 ? "mid" : "advanced";
+  const stars = state.stars[i] || 0;
+  
+  const el = document.createElement("button");
+  el.className = `level ${type}${locked ? " locked" : ""}`;
+  el.disabled = locked;
+  
+  el.innerHTML = `
+    <span class="num">${i}</span>
+    <span class="lock">${locked ? "🔒" : "✨"}</span>
+    <div class="label">${i <= 10 ? "Basic" : i <= 30 ? "Intermediate" : "Advanced"}</div>
+    <div class="stars">${"⭐".repeat(stars)}${"☆".repeat(3 - stars)}</div>
+  `;
+  
+  if (!locked) el.onclick = () => startLevel(i);
+  return el;
+}
+
+function renderLevels() {
+  ["basicLevels", "midLevels", "advancedLevels"].forEach(x => $(x).innerHTML = "");
+  for (let i = 1; i <= TOTAL_LEVELS; i++) {
+    const containerId = i <= 10 ? "basicLevels" : i <= 30 ? "midLevels" : "advancedLevels";
+    $(containerId).appendChild(levelCard(i));
+  }
+  updateHeader();
+}
+
+function show(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function scrollToLevels() {
+  $("levels").scrollIntoView({ behavior: "smooth" });
+}
+
+function goMenu() {
+  show("menu");
+}
+
+function openResetModal() {
+  $("resetModal").classList.add("active");
+}
+
+function closeResetModal() {
+  $("resetModal").classList.remove("active");
+}
+
+function confirmReset() {
+  state = { unlocked: 1, stars: {} };
+  save();
+  closeResetModal();
+}
+
+let audioCtx = null;
+function initAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === "suspended") audioCtx.resume();
+}
+
+function tone(freq, duration, type = "sine", volume = .045, delay = 0) {
+  initAudio();
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+  
+  g.gain.setValueAtTime(.0001, audioCtx.currentTime + delay);
+  g.gain.exponentialRampToValueAtTime(volume, audioCtx.currentTime + delay + .015);
+  g.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + delay + duration);
+  
+  o.connect(g);
+  g.connect(audioCtx.destination);
+  o.start(audioCtx.currentTime + delay);
+  o.stop(audioCtx.currentTime + delay + duration + .03);
+}
+
+function playCorrect() {
+  initAudio();
+  tone(523.25, .13, "sine", .055, 0);   // C5
+  tone(659.25, .13, "sine", .05, .09);  // E5
+  tone(783.99, .20, "sine", .055, .18); // G5
+}
+
+function playWrong() {
+  initAudio();
+  tone(220, .18, "triangle", .045, 0); // A3
+  tone(165, .24, "triangle", .04, .13); // E3
+}
+
+function startLevel(level) {
+  currentLevel = level;
+  currentQ = 0;
+  score = 0;
+  answered = false;
+  
+  startTime = Date.now(); 
+  
+  show("quiz");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  // Use questions for the level, or fallback to level 5 if undefined
+  const qs = QUESTIONS[currentLevel] || QUESTIONS[5];
+  const item = qs[currentQ % qs.length];
+  
+  $("quizLabel").textContent = `Level ${currentLevel} · ${currentQ + 1}/${qs.length}`;
+  $("progressBar").style.width = `${((currentQ) / qs.length) * 100}%`;
+  
+  $("qEmoji").textContent = item.emoji;
+  $("questionText").textContent = item.q;
+  
+  $("feedback").textContent = "";
+  $("feedback").className = "feedback";
+  
+  const box = $("options");
+  box.innerHTML = "";
+  
+  item.options.forEach(opt => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.textContent = opt;
+    b.onclick = () => answer(b, opt, item.a);
+    box.appendChild(b);
+  });
+}
+
+function answer(btn, choice, correct) {
+  if (answered) return;
+  answered = true;
+  
+  document.querySelectorAll(".option").forEach(b => b.disabled = true);
+  
+  if (choice === correct) {
+    playCorrect(); // Added missing audio feedback for correct answers
+    btn.classList.add("correct");
+    score++;
+    $("feedback").textContent = "🎉 Correct! Awesome!";
+    $("feedback").className = "feedback good";
+    confetti();
+  } else {
+    playWrong();
+    btn.classList.add("wrong");
+    $("feedback").textContent = `💪 Almost! Correct answer: ${correct}`;
+    $("feedback").className = "feedback bad";
+    
+    // Highlight the correct answer
+    document.querySelectorAll(".option").forEach(b => {
+      if (b.textContent === correct) b.classList.add("correct");
+    });
+  }
+  
+  setTimeout(() => {
+    currentQ++;
+    const qs = QUESTIONS[currentLevel] || QUESTIONS[5];
+    
+    if (currentQ < qs.length) {
+      answered = false;
+      renderQuestion();
+    } else {
+      finishLevel();
+    }
+  }, 1000); // Slightly longer delay to let user see correct answer
+}
+
+function finishLevel() {
+  const qsLength = (QUESTIONS[currentLevel] || QUESTIONS[5]).length;
+  const pct = score / qsLength;
+  const stars = pct >= .9 ? 3 : pct >= .6 ? 2 : 1;
+  
+  const timeTaken = Math.floor((Date.now() - startTime) / 1000); // Masa dalam saat
+  
+  // Save progress locally
+  state.stars[currentLevel] = Math.max(state.stars[currentLevel] || 0, stars);
+  
+  const recordData = {
+    level: currentLevel,
+    player: state.playerName || "Anonymous",
+    score: score,
+    total: qsLength,
+    stars: stars,
+    time: timeTaken,
+    date: new Date().toLocaleString('en-US', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }),
+    timestamp: Date.now()
+  };
+
+  // Simpan dalam sejarah peranti
+  if (!state.history) state.history = [];
+  state.history.unshift(recordData);
+  if (state.history.length > 30) state.history.pop(); 
+  
+  // Simpan secara awan (Cloud) supaya semua pelayar / peranti boleh nampak!
+  if (auth && auth.currentUser && fsAddDoc && fsCollection && appId) {
+    try {
+      const recordsRef = fsCollection(db, 'artifacts', appId, 'public', 'data', 'gameRecords');
+      fsAddDoc(recordsRef, recordData);
+    } catch (e) {
+      console.error("Error saving to Firebase:", e);
+    }
+  }
+  
+  // Only unlock next level if they got at least 1 star
+  if (currentLevel < TOTAL_LEVELS && stars >= 1) {
+    state.unlocked = Math.max(state.unlocked, currentLevel + 1);
+  }
+  save();
+  
+  // Update result screen UI
+  $("resultStars").textContent = "⭐".repeat(stars) + "☆".repeat(3 - stars);
+  $("resultScore").textContent = `Your score: ${score}/${qsLength} · ${Math.round(pct * 100)}%`;
+  $("resultTime").textContent = `⏳ Time taken: ${timeTaken} seconds`;
+  $("resultTitle").textContent = stars === 3 ? "🌟 Excellent!" : stars === 2 ? "👏 Good Job!" : "💪 Keep Practicing!";
+  $("resultEmoji").textContent = stars === 3 ? "🏆" : stars === 2 ? "🥳" : "🌈";
+  
+  // Setup Next button
+  const next = $("nextBtn");
+  if (currentLevel < TOTAL_LEVELS && stars >= 1) {
+    next.style.display = "inline-block";
+    next.textContent = `➡️ Level ${currentLevel + 1}`;
+    next.onclick = () => startLevel(currentLevel + 1);
+  } else {
+    next.style.display = "none";
+  }
+  
+  show("result");
+}
+
+function confetti() {
+  const c = $("confetti");
+  c.innerHTML = "";
+  for (let i = 0; i < 45; i++) {
+    const s = document.createElement("span");
+    s.style.left = Math.random() * 100 + "%";
+    s.style.animationDelay = Math.random() * .25 + "s";
+    s.style.background = ["#ff6b7a", "#ffc857", "#4bb7ff", "#38c98a", "#7867f5", "#ff7da9"][Math.floor(Math.random() * 6)];
+    s.style.transform = `rotate(${Math.random() * 360}deg)`;
+    c.appendChild(s);
+  }
+  setTimeout(() => c.innerHTML = "", 1500);
+}
+
+async function playWelcomeVoice(playerName) {
+    try {
+        const payload = {
+            contents: [{
+                parts: [{ text: `Welcome to English Adventure, ${playerName}! Let's learn, play, and shine! Are you ready? Let's go!` }]
+            }],
+            generationConfig: {
+                responseModalities: ["AUDIO"],
+                speechConfig: {
+                    voiceConfig: {
+                        prebuiltVoiceConfig: { voiceName: "Puck" }
+                    }
+                }
+            },
+            model: "gemini-2.5-flash-preview-tts"
+        };
+        const apiKey = ""; 
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        const part = result?.candidates?.[0]?.content?.parts?.[0];
+        const audioData = part?.inlineData?.data;
+        const mimeType = part?.inlineData?.mimeType;
+
+        if (audioData && mimeType && mimeType.startsWith("audio/")) {
+            const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+            const pcmData = base64ToArrayBuffer(audioData);
+            const pcm16 = new Int16Array(pcmData);
+            const wavBlob = pcmToWav(pcm16, sampleRate);
+            const audioUrl = URL.createObjectURL(wavBlob);
+            const audio = new Audio(audioUrl);
+            await audio.play();
+        }
+    } catch (e) {
+        console.error("TTS Error:", e);
+    }
+}
+
+function base64ToArrayBuffer(base64) {
+    var binaryString = window.atob(base64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
+function pcmToWav(pcm16, sampleRate) {
+    const numChannels = 1;
+    const byteRate = sampleRate * numChannels * 2;
+    const blockAlign = numChannels * 2;
+    const buffer = new ArrayBuffer(44 + pcm16.byteLength);
+    const view = new DataView(buffer);
+
+    writeString(view, 0, 'RIFF');
+    view.setUint32(4, 36 + pcm16.byteLength, true);
+    writeString(view, 8, 'WAVE');
+    writeString(view, 12, 'fmt ');
+    view.setUint32(16, 16, true);
+    view.setUint16(20, 1, true); 
+    view.setUint16(22, numChannels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, byteRate, true);
+    view.setUint16(32, blockAlign, true);
+    view.setUint16(34, 16, true); 
+    writeString(view, 36, 'data');
+    view.setUint32(40, pcm16.byteLength, true);
+
+    let offset = 44;
+    for (let i = 0; i < pcm16.length; i++, offset += 2) {
+        view.setInt16(offset, pcm16[i], true);
+    }
+    return new Blob([view], { type: 'audio/wav' });
+}
+
+function writeString(view, offset, string) {
+    for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+    }
+}
+
+// Initial render
+renderLevels();
+
+if (!state.playerName) {
+  show("welcome");
+} else {
+  show("menu");
+}
+</script>
+</body>
+</html>
