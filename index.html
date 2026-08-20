@@ -588,40 +588,86 @@ async function initFirebase() {
 initFirebase();
 
 const QUESTIONS = {
+  // ==========================================
+  // ASAS (Umur 6 - 7 Tahun) - Asas perkataan & ejaan
+  // ==========================================
   1: [
     {emoji: "🐱", q: "What animal is this?", options: ["Cat", "Dog", "Fish", "Bird"], a: "Cat"},
     {emoji: "🔴", q: "What color is this?", options: ["Blue", "Red", "Green", "Yellow"], a: "Red"},
     {emoji: "3️⃣", q: "What number is this?", options: ["One", "Two", "Three", "Four"], a: "Three"},
-    {emoji: "🐶", q: "Which word means an animal that says 'woof'?", options: ["Cat", "Dog", "Fish", "Duck"], a: "Dog"},
-    {emoji: "🟡", q: "What color is the sun usually drawn as?", options: ["Purple", "Yellow", "Black", "Pink"], a: "Yellow"}
+    {emoji: "🐶", q: "Which animal says 'woof'?", options: ["Cat", "Dog", "Fish", "Duck"], a: "Dog"},
+    {emoji: "🟡", q: "What color is the sun?", options: ["Purple", "Yellow", "Black", "Pink"], a: "Yellow"}
   ],
   2: [
-    {emoji: "🐟", q: "Which animal lives in water?", options: ["Fish", "Lion", "Horse", "Rabbit"], a: "Fish"},
-    {emoji: "🟢", q: "What color is this?", options: ["Red", "Green", "Blue", "Orange"], a: "Green"},
-    {emoji: "5️⃣", q: "How do you spell 5?", options: ["Four", "Five", "Fife", "Fiv"], a: "Five"},
+    {emoji: "🍎", q: "What fruit is this?", options: ["Banana", "Apple", "Grapes", "Orange"], a: "Apple"},
+    {emoji: "👀", q: "We use these to...", options: ["See", "Hear", "Smell", "Taste"], a: "See"},
+    {emoji: "🌧️", q: "What weather is this?", options: ["Sunny", "Rainy", "Cloudy", "Windy"], a: "Rainy"},
     {emoji: "🐰", q: "Which animal has long ears?", options: ["Rabbit", "Tiger", "Cow", "Fish"], a: "Rabbit"},
-    {emoji: "🔵", q: "What color is this?", options: ["Blue", "Brown", "Pink", "White"], a: "Blue"}
+    {emoji: "🔵", q: "What color is the sky?", options: ["Blue", "Brown", "Pink", "White"], a: "Blue"}
   ],
   3: [
     {emoji: "🏃", q: "Which word means to move quickly on your feet?", options: ["Run", "Sleep", "Eat", "Sing"], a: "Run"},
-    {emoji: "📖", q: "Choose the correct sentence.", options: ["I am happy.", "I happy am.", "Am I happy.", "Happy I am."], a: "I am happy."},
-    {emoji: "🍎", q: "Choose the correct spelling.", options: ["Appl", "Aple", "Apple", "Appel"], a: "Apple"},
+    {emoji: "📖", q: "What do you do with a book?", options: ["Eat it", "Read it", "Drink it", "Wear it"], a: "Read it"},
+    {emoji: "👃", q: "We use this to smell.", options: ["Eyes", "Ears", "Nose", "Mouth"], a: "Nose"},
     {emoji: "☀️", q: "Complete: The sun ___ bright.", options: ["are", "is", "am", "be"], a: "is"},
-    {emoji: "🐦", q: "A bird can…", options: ["fly", "swim like a fish", "drive", "read"], a: "fly"}
+    {emoji: "🐦", q: "A bird can…", options: ["fly", "swim", "drive", "read"], a: "fly"}
   ],
   4: [
-    {emoji: "🍌", q: "What fruit is this?", options: ["Apple", "Banana", "Orange", "Grape"], a: "Banana"},
-    {emoji: "👀", q: "We use these to see.", options: ["Ears", "Nose", "Eyes", "Mouth"], a: "Eyes"},
-    {emoji: "👨‍👩‍👧", q: "Mother, father, and children make a...", options: ["School", "Family", "Team", "House"], a: "Family"},
-    {emoji: "🐘", q: "Which animal is very big and has a trunk?", options: ["Mouse", "Elephant", "Monkey", "Snake"], a: "Elephant"},
-    {emoji: "🖐️", q: "How many fingers are on one hand?", options: ["Four", "Five", "Six", "Ten"], a: "Five"}
+    {emoji: "👨‍👩‍👦", q: "Your mother and father are your...", options: ["Friends", "Teachers", "Parents", "Cousins"], a: "Parents"},
+    {emoji: "🍉", q: "Which fruit is green outside and red inside?", options: ["Apple", "Watermelon", "Banana", "Grapes"], a: "Watermelon"},
+    {emoji: "🖐️", q: "How many fingers do you have on one hand?", options: ["Four", "Five", "Six", "Ten"], a: "Five"},
+    {emoji: "🌙", q: "When do we see the moon?", options: ["Morning", "Afternoon", "Night", "Noon"], a: "Night"},
+    {emoji: "🥶", q: "Opposite of HOT is...", options: ["Warm", "Cold", "Sunny", "Dry"], a: "Cold"}
   ],
-  5: [
-    {emoji: "🌙", q: "When do we usually sleep?", options: ["Morning", "Afternoon", "Night", "Evening"], a: "Night"},
-    {emoji: "🌧️", q: "What falls from the clouds?", options: ["Snow", "Rain", "Sun", "Stars"], a: "Rain"},
-    {emoji: "🔥", q: "Fire is...", options: ["Cold", "Wet", "Hot", "Sweet"], a: "Hot"},
-    {emoji: "🧊", q: "The opposite of hot is...", options: ["Warm", "Cold", "Dry", "Sunny"], a: "Cold"},
-    {emoji: "👟", q: "We wear these on our feet.", options: ["Hats", "Gloves", "Shoes", "Shirts"], a: "Shoes"}
+
+  // ==========================================
+  // PERTENGAHAN (Umur 8 - 10 Tahun) - Tatabahasa (Grammar) & Kosa Kata
+  // ==========================================
+  11: [
+    {emoji: "👩‍🏫", q: "A person who teaches students is a...", options: ["Doctor", "Teacher", "Farmer", "Police"], a: "Teacher"},
+    {emoji: "🏫", q: "Where do you go to learn?", options: ["Hospital", "Market", "School", "Park"], a: "School"},
+    {emoji: "⌚", q: "Complete: I wake up ___ 7 o'clock.", options: ["in", "on", "at", "by"], a: "at"},
+    {emoji: "🐁", q: "What is the plural of 'Mouse'?", options: ["Mouses", "Mice", "Meese", "Mouse"], a: "Mice"},
+    {emoji: "🐘", q: "The elephant is ___ than the mouse.", options: ["big", "biger", "biggest", "bigger"], a: "bigger"}
+  ],
+  12: [
+    {emoji: "👨‍⚕️", q: "Who helps you when you are sick?", options: ["Teacher", "Doctor", "Chef", "Pilot"], a: "Doctor"},
+    {emoji: "📦", q: "The cat is hiding ___ the box.", options: ["under", "between", "over", "into"], a: "under"},
+    {emoji: "yesterday", q: "Choose the past tense of 'Go'.", options: ["Goes", "Going", "Went", "Gone"], a: "Went"},
+    {emoji: "🚗", q: "Complete: My father ___ a new car.", options: ["have", "has", "having", "is"], a: "has"},
+    {emoji: "🦷", q: "What is the plural of 'Tooth'?", options: ["Tooths", "Teeth", "Teeths", "Tooth"], a: "Teeth"}
+  ],
+  13: [
+    {emoji: "🐢", q: "Which word is an adjective (describing word)?", options: ["Slow", "Turtle", "Walk", "Quickly"], a: "Slow"},
+    {emoji: "🍔", q: "Complete: I ___ eating a burger now.", options: ["am", "is", "are", "was"], a: "am"},
+    {emoji: "👦", q: "Complete: He is my brother. ___ name is Ali.", options: ["He", "His", "Him", "She"], a: "His"},
+    {emoji: "✈️", q: "A plane travels ___ the air.", options: ["on", "through", "under", "between"], a: "through"},
+    {emoji: "🦒", q: "The giraffe is the ___ animal in the zoo.", options: ["tall", "taller", "tallest", "most tall"], a: "tallest"}
+  ],
+
+  // ==========================================
+  // LANJUTAN (Umur 11 - 12 Tahun) - Kefahaman, Sinonim & Struktur Ayat Kompleks
+  // ==========================================
+  31: [
+    {emoji: "😊", q: "What is a synonym (same meaning) for 'Happy'?", options: ["Sad", "Angry", "Joyful", "Tired"], a: "Joyful"},
+    {emoji: "🏃‍♂️", q: "Complete: Ali ran quickly. 'Quickly' is an...", options: ["Noun", "Adjective", "Adverb", "Verb"], a: "Adverb"},
+    {emoji: "🌧️", q: "We stayed inside ___ it was raining heavily.", options: ["but", "so", "because", "although"], a: "because"},
+    {emoji: "🤔", q: "Choose the correctly spelled word.", options: ["Beautiful", "Beutiful", "Beauitful", "Beautifully"], a: "Beautiful"},
+    {emoji: "🥇", q: "Complete: She is the ___ student in the class.", options: ["smart", "smarter", "smartest", "most smart"], a: "smartest"}
+  ],
+  32: [
+    {emoji: "😠", q: "What is an antonym (opposite meaning) for 'Brave'?", options: ["Fearless", "Strong", "Cowardly", "Heroic"], a: "Cowardly"},
+    {emoji: "📚", q: "Complete: If I study hard, I ___ pass the exam.", options: ["will", "would", "am", "was"], a: "will"},
+    {emoji: "🗣️", q: "Complete: They ___ playing football when it started to rain.", options: ["are", "is", "was", "were"], a: "were"},
+    {emoji: "🌍", q: "Which sentence is grammatically correct?", options: ["She don't like apples.", "She doesn't likes apples.", "She doesn't like apples.", "She not like apples."], a: "She doesn't like apples."},
+    {emoji: "📝", q: "Complete: I have ___ my homework.", options: ["finish", "finishing", "finished", "finishes"], a: "finished"}
+  ],
+  33: [
+    {emoji: "🏆", q: "The phrase 'Piece of cake' means...", options: ["A sweet dessert", "Something very easy", "A birthday party", "Something hard"], a: "Something very easy"},
+    {emoji: "🛒", q: "Complete: How ___ apples do you need?", options: ["much", "many", "few", "little"], a: "many"},
+    {emoji: "💧", q: "Complete: There isn't ___ water left in the bottle.", options: ["some", "any", "many", "few"], a: "any"},
+    {emoji: "🕰️", q: "Complete: I have lived here ___ 2015.", options: ["for", "since", "in", "at"], a: "since"},
+    {emoji: "🕵️", q: "Find the odd one out.", options: ["Table", "Chair", "Sofa", "Apple"], a: "Apple"}
   ]
 };
 
